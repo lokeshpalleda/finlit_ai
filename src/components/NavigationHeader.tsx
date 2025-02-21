@@ -14,9 +14,11 @@ import {
   Briefcase,
   Shield,
   Coins,
-  Building2,
   PiggyBank,
-  BarChart
+  BarChart,
+  HelpCircle,
+  AlertCircle,
+  User
 } from "lucide-react";
 
 interface NavigationHeaderProps {
@@ -24,13 +26,17 @@ interface NavigationHeaderProps {
   onGoldSelect?: () => void;
   onStockDataSelect?: () => void;
   onMutualFundsLearnSelect?: () => void;
+  onInsuranceSelect?: () => void;
+  onBudgetSelect?: () => void;
 }
 
 export const NavigationHeader = ({ 
   onStockGameSelect,
   onGoldSelect,
   onStockDataSelect,
-  onMutualFundsLearnSelect
+  onMutualFundsLearnSelect,
+  onInsuranceSelect,
+  onBudgetSelect
 }: NavigationHeaderProps) => {
   const { toast } = useToast();
 
@@ -62,9 +68,21 @@ export const NavigationHeader = ({
       return;
     }
 
+    if (option === "Insurance" && onInsuranceSelect) {
+      onInsuranceSelect();
+      return;
+    }
+
     toast({
       title: `You selected to invest in ${option}`,
       description: "Investment feature coming soon!",
+    });
+  };
+
+  const handleAboutOption = (option: string) => {
+    toast({
+      title: `You selected ${option}`,
+      description: option === "Help" ? "Our support team will assist you soon!" : "Your complaint has been registered.",
     });
   };
 
@@ -127,10 +145,6 @@ export const NavigationHeader = ({
                     <Coins className="mr-2 h-4 w-4" />
                     <span>Gold</span>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleInvestOption("Assets")}>
-                    <Building2 className="mr-2 h-4 w-4" />
-                    <span>Assets</span>
-                  </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => handleInvestOption("Mutual Funds")}>
                     <Briefcase className="mr-2 h-4 w-4" />
                     <span>Mutual Funds</span>
@@ -149,12 +163,36 @@ export const NavigationHeader = ({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-sm font-medium transition-colors hover:text-primary"
+                  >
+                    About
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="end"
+                  className="w-48"
+                >
+                  <DropdownMenuItem onClick={() => handleAboutOption("Help")}>
+                    <HelpCircle className="mr-2 h-4 w-4" />
+                    <span>Help</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleAboutOption("Complaints")}>
+                    <AlertCircle className="mr-2 h-4 w-4" />
+                    <span>Complaints</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button
                 variant="ghost"
                 className="text-sm font-medium transition-colors hover:text-primary"
-                onClick={() => toast({ title: "Coming soon!" })}
+                onClick={() => toast({ title: "Profile coming soon!" })}
               >
-                About
+                <User className="mr-2 h-4 w-4" />
+                My Profile
               </Button>
             </div>
           </div>

@@ -2,8 +2,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { TrendingUp, TrendingDown } from "lucide-react";
+import { TrendingUp, TrendingDown, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface Stock {
   id: number;
@@ -11,6 +17,7 @@ interface Stock {
   price: number;
   change: number;
   owned: number;
+  hint: string;
 }
 
 export const StockGame = () => {
@@ -18,10 +25,38 @@ export const StockGame = () => {
   const [coins, setCoins] = useState(1000);
   const [investAmount, setInvestAmount] = useState("");
   const [stocks, setStocks] = useState<Stock[]>([
-    { id: 1, name: "TechCorp", price: 150, change: 2.5, owned: 0 },
-    { id: 2, name: "EcoEnergy", price: 75, change: -1.2, owned: 0 },
-    { id: 3, name: "HealthCare Plus", price: 200, change: 3.8, owned: 0 },
-    { id: 4, name: "Global Finance", price: 120, change: -0.8, owned: 0 },
+    { 
+      id: 1, 
+      name: "TechCorp", 
+      price: 150, 
+      change: 2.5, 
+      owned: 0,
+      hint: "Strong tech sector performance and new product launches make this a potential growth stock."
+    },
+    { 
+      id: 2, 
+      name: "EcoEnergy", 
+      price: 75, 
+      change: -1.2, 
+      owned: 0,
+      hint: "Despite recent dips, renewable energy sector shows promise for long-term growth."
+    },
+    { 
+      id: 3, 
+      name: "HealthCare Plus", 
+      price: 200, 
+      change: 3.8, 
+      owned: 0,
+      hint: "Healthcare sector is defensive and shows steady growth potential."
+    },
+    { 
+      id: 4, 
+      name: "Global Finance", 
+      price: 120, 
+      change: -0.8, 
+      owned: 0,
+      hint: "Financial sector may benefit from rising interest rates."
+    },
   ]);
 
   const handleBuy = (stock: Stock) => {
@@ -72,7 +107,7 @@ export const StockGame = () => {
   const simulateMarket = () => {
     setStocks((prev) =>
       prev.map((stock) => {
-        const randomChange = (Math.random() * 10 - 5) / 100; // -5% to +5%
+        const randomChange = (Math.random() * 10 - 5) / 100;
         const newPrice = stock.price * (1 + randomChange);
         return {
           ...stock,
@@ -111,7 +146,21 @@ export const StockGame = () => {
               className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm"
             >
               <div className="flex justify-between items-center mb-2">
-                <h3 className="font-semibold">{stock.name}</h3>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-semibold">{stock.name}</h3>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-6 w-6">
+                          <Info className="h-4 w-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="max-w-xs">
+                        <p>{stock.hint}</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
                 <span
                   className={`flex items-center ${
                     stock.change >= 0 ? "text-green-500" : "text-red-500"
