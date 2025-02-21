@@ -12,7 +12,11 @@ import {
   TrendingUp,
   Building,
   Briefcase,
-  Shield
+  Shield,
+  Coins,
+  Building2,
+  PiggyBank,
+  BarChart
 } from "lucide-react";
 
 export const NavigationHeader = () => {
@@ -22,6 +26,13 @@ export const NavigationHeader = () => {
     toast({
       title: `You selected ${option}`,
       description: "This feature is coming soon!",
+    });
+  };
+
+  const handleInvestOption = (option: string) => {
+    toast({
+      title: `You selected to invest in ${option}`,
+      description: "Investment feature coming soon!",
     });
   };
 
@@ -67,13 +78,45 @@ export const NavigationHeader = () => {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button
-                variant="ghost"
-                className="text-sm font-medium transition-colors hover:text-primary"
-                onClick={() => toast({ title: "Coming soon!" })}
-              >
-                Invest
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-sm font-medium transition-colors hover:text-primary"
+                  >
+                    Invest
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  align="end"
+                  className="w-48"
+                >
+                  <DropdownMenuItem onClick={() => handleInvestOption("Gold")}>
+                    <Coins className="mr-2 h-4 w-4" />
+                    <span>Gold</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleInvestOption("Assets")}>
+                    <Building2 className="mr-2 h-4 w-4" />
+                    <span>Assets</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleInvestOption("Mutual Funds")}>
+                    <Briefcase className="mr-2 h-4 w-4" />
+                    <span>Mutual Funds</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleInvestOption("SIP")}>
+                    <PiggyBank className="mr-2 h-4 w-4" />
+                    <span>SIP</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleInvestOption("Stocks")}>
+                    <BarChart className="mr-2 h-4 w-4" />
+                    <span>Stocks</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleInvestOption("Insurance")}>
+                    <Shield className="mr-2 h-4 w-4" />
+                    <span>Insurance</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <Button
                 variant="ghost"
                 className="text-sm font-medium transition-colors hover:text-primary"
