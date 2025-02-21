@@ -27,6 +27,11 @@ export const NavigationHeader = ({ onStockGameSelect }: NavigationHeaderProps) =
   const { toast } = useToast();
 
   const handleLearnOption = (option: string) => {
+    if (option === "Stocks" && onStockGameSelect) {
+      onStockGameSelect();
+      return;
+    }
+    
     toast({
       title: `You selected ${option}`,
       description: "This feature is coming soon!",
@@ -34,11 +39,6 @@ export const NavigationHeader = ({ onStockGameSelect }: NavigationHeaderProps) =
   };
 
   const handleInvestOption = (option: string) => {
-    if (option === "Stocks" && onStockGameSelect) {
-      onStockGameSelect();
-      return;
-    }
-    
     toast({
       title: `You selected to invest in ${option}`,
       description: "Investment feature coming soon!",
