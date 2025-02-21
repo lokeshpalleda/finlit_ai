@@ -19,7 +19,11 @@ import {
   BarChart
 } from "lucide-react";
 
-export const NavigationHeader = () => {
+interface NavigationHeaderProps {
+  onStockGameSelect?: () => void;
+}
+
+export const NavigationHeader = ({ onStockGameSelect }: NavigationHeaderProps) => {
   const { toast } = useToast();
 
   const handleLearnOption = (option: string) => {
@@ -30,6 +34,11 @@ export const NavigationHeader = () => {
   };
 
   const handleInvestOption = (option: string) => {
+    if (option === "Stocks" && onStockGameSelect) {
+      onStockGameSelect();
+      return;
+    }
+    
     toast({
       title: `You selected to invest in ${option}`,
       description: "Investment feature coming soon!",
