@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -83,6 +82,18 @@ export const NavigationHeader = ({
     toast({
       title: `You selected ${option}`,
       description: option === "Help" ? "Our support team will assist you soon!" : "Your complaint has been registered.",
+    });
+  };
+
+  const handleProfileClick = (option: string) => {
+    if (option === "My Budget" && onBudgetSelect) {
+      onBudgetSelect();
+      return;
+    }
+    
+    toast({
+      title: `You selected ${option}`,
+      description: "This feature is coming soon!",
     });
   };
 
@@ -186,14 +197,27 @@ export const NavigationHeader = ({
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button
-                variant="ghost"
-                className="text-sm font-medium transition-colors hover:text-primary"
-                onClick={() => toast({ title: "Profile coming soon!" })}
-              >
-                <User className="mr-2 h-4 w-4" />
-                My Profile
-              </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="text-sm font-medium transition-colors hover:text-primary"
+                  >
+                    <User className="mr-2 h-4 w-4" />
+                    My Profile
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={() => handleProfileClick("Profile Settings")}>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile Settings</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleProfileClick("My Budget")}>
+                    <PiggyBank className="mr-2 h-4 w-4" />
+                    <span>My Budget</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>

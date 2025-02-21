@@ -1,17 +1,18 @@
-
 import { NavigationHeader } from "@/components/NavigationHeader";
 import { ChatInterface } from "@/components/ChatInterface";
 import { StockGame } from "@/components/StockGame";
 import { GoldInvestment } from "@/components/GoldInvestment";
 import { StockInvestmentData } from "@/components/StockInvestmentData";
 import { MutualFundsLearning } from "@/components/MutualFundsLearning";
+import { BankingLearning } from "@/components/BankingLearning";
+import { BudgetAnalysis } from "@/components/BudgetAnalysis";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<
-    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds"
+    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds" | "banking" | "budget"
   >("chat");
 
   const scrollToChat = () => {
@@ -34,6 +35,10 @@ const Index = () => {
         return <StockInvestmentData />;
       case "mutualFunds":
         return <MutualFundsLearning />;
+      case "banking":
+        return <BankingLearning />;
+      case "budget":
+        return <BudgetAnalysis />;
       default:
         return null;
     }
@@ -46,6 +51,8 @@ const Index = () => {
         onGoldSelect={() => setCurrentView("gold")}
         onStockDataSelect={() => setCurrentView("stockData")}
         onMutualFundsLearnSelect={() => setCurrentView("mutualFunds")}
+        onBankingSelect={() => setCurrentView("banking")}
+        onBudgetSelect={() => setCurrentView("budget")}
       />
       
       {/* Hero Section */}
