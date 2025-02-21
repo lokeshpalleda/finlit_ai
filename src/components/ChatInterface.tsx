@@ -6,8 +6,6 @@ import { ChatMessage } from "./ChatMessage";
 import { Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const GEMINI_API_KEY = "YOUR_GEMINI_API_KEY"; // We'll handle this securely later
-
 export const ChatInterface = () => {
   const { toast } = useToast();
   const [messages, setMessages] = useState<Array<{ text: string; isAI: boolean }>>([
@@ -49,7 +47,7 @@ Please provide a helpful, informative response focused on financial topics.`
 
     try {
       const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + GEMINI_API_KEY,
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + process.env.GEMINI_API_KEY,
         {
           method: "POST",
           headers: {
