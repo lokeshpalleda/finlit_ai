@@ -21,14 +21,27 @@ import {
 
 interface NavigationHeaderProps {
   onStockGameSelect?: () => void;
+  onGoldSelect?: () => void;
+  onStockDataSelect?: () => void;
+  onMutualFundsLearnSelect?: () => void;
 }
 
-export const NavigationHeader = ({ onStockGameSelect }: NavigationHeaderProps) => {
+export const NavigationHeader = ({ 
+  onStockGameSelect,
+  onGoldSelect,
+  onStockDataSelect,
+  onMutualFundsLearnSelect
+}: NavigationHeaderProps) => {
   const { toast } = useToast();
 
   const handleLearnOption = (option: string) => {
     if (option === "Stocks" && onStockGameSelect) {
       onStockGameSelect();
+      return;
+    }
+
+    if (option === "Mutual Funds" && onMutualFundsLearnSelect) {
+      onMutualFundsLearnSelect();
       return;
     }
     
@@ -39,6 +52,16 @@ export const NavigationHeader = ({ onStockGameSelect }: NavigationHeaderProps) =
   };
 
   const handleInvestOption = (option: string) => {
+    if (option === "Gold" && onGoldSelect) {
+      onGoldSelect();
+      return;
+    }
+
+    if (option === "Stocks" && onStockDataSelect) {
+      onStockDataSelect();
+      return;
+    }
+
     toast({
       title: `You selected to invest in ${option}`,
       description: "Investment feature coming soon!",

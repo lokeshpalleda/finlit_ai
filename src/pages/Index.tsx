@@ -2,21 +2,51 @@
 import { NavigationHeader } from "@/components/NavigationHeader";
 import { ChatInterface } from "@/components/ChatInterface";
 import { StockGame } from "@/components/StockGame";
+import { GoldInvestment } from "@/components/GoldInvestment";
+import { StockInvestmentData } from "@/components/StockInvestmentData";
+import { MutualFundsLearning } from "@/components/MutualFundsLearning";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
-  const [showStockGame, setShowStockGame] = useState(false);
+  const [currentView, setCurrentView] = useState<
+    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds"
+  >("chat");
 
   const scrollToChat = () => {
     const chatSection = document.getElementById("chat-section");
     chatSection?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const getCurrentComponent = () => {
+    switch (currentView) {
+      case "stockGame":
+        return (
+          <>
+            <h2 className="text-3xl font-bold mb-8">Learn About Stocks</h2>
+            <StockGame />
+          </>
+        );
+      case "gold":
+        return <GoldInvestment />;
+      case "stockData":
+        return <StockInvestmentData />;
+      case "mutualFunds":
+        return <MutualFundsLearning />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-screen">
-      <NavigationHeader onStockGameSelect={() => setShowStockGame(true)} />
+      <NavigationHeader 
+        onStockGameSelect={() => setCurrentView("stockGame")}
+        onGoldSelect={() => setCurrentView("gold")}
+        onStockDataSelect={() => setCurrentView("stockData")}
+        onMutualFundsLearnSelect={() => setCurrentView("mutualFunds")}
+      />
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center px-4">
@@ -26,14 +56,13 @@ const Index = () => {
         </div>
         
         <div className="max-w-4xl mx-auto text-center animate-fade-up">
-          {showStockGame ? (
+          {currentView !== "chat" ? (
             <>
-              <h2 className="text-3xl font-bold mb-8">Stock Market Game</h2>
-              <StockGame />
+              {getCurrentComponent()}
               <Button 
                 variant="outline" 
                 className="mt-8"
-                onClick={() => setShowStockGame(false)}
+                onClick={() => setCurrentView("chat")}
               >
                 Back to Chat
               </Button>
@@ -60,7 +89,7 @@ const Index = () => {
           )}
         </div>
         
-        {!showStockGame && (
+        {currentView === "chat" && (
           <div className="absolute bottom-8 w-full flex justify-center animate-fade-down">
             <Button
               variant="ghost"
@@ -75,7 +104,7 @@ const Index = () => {
       </section>
 
       {/* Chat Section */}
-      {!showStockGame && (
+      {currentView === "chat" && (
         <section
           id="chat-section"
           className="min-h-screen flex flex-col items-center justify-center p-4 relative"
