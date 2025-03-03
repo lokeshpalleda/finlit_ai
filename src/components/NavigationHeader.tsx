@@ -1,25 +1,9 @@
 
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  BookOpen,
-  TrendingUp,
-  Building,
-  Briefcase,
-  Shield,
-  Coins,
-  PiggyBank,
-  BarChart,
-  HelpCircle,
-  AlertCircle,
-  User
-} from "lucide-react";
+import { LearnMenu } from "./navigation/LearnMenu";
+import { InvestMenu } from "./navigation/InvestMenu";
+import { AboutMenu } from "./navigation/AboutMenu";
+import { ProfileMenu } from "./navigation/ProfileMenu";
 
 interface NavigationHeaderProps {
   onStockGameSelect?: () => void;
@@ -46,77 +30,39 @@ export const NavigationHeader = ({
 }: NavigationHeaderProps) => {
   const { toast } = useToast();
 
-  const handleLearnOption = (option: string) => {
-    if (option === "Stocks" && onStockGameSelect) {
-      onStockGameSelect();
-      return;
-    }
-
-    if (option === "Mutual Funds" && onMutualFundsLearnSelect) {
-      onMutualFundsLearnSelect();
-      return;
-    }
-    
-    if (option === "Banking" && onBankingSelect) {
-      onBankingSelect();
-      return;
-    }
-
-    if (option === "Insurance" && onInsuranceLearnSelect) {
-      onInsuranceLearnSelect();
-      return;
-    }
-    
+  const handleGenericToast = (title: string, description: string) => {
     toast({
-      title: `You selected ${option}`,
-      description: "This feature is coming soon!",
+      title,
+      description,
     });
+  };
+
+  const handleLearnOption = (option: string) => {
+    handleGenericToast(
+      `You selected ${option}`,
+      "This feature is coming soon!"
+    );
   };
 
   const handleInvestOption = (option: string) => {
-    if (option === "Gold" && onGoldSelect) {
-      onGoldSelect();
-      return;
-    }
-
-    if (option === "Stocks" && onStockDataSelect) {
-      onStockDataSelect();
-      return;
-    }
-
-    if (option === "Insurance" && onInsuranceSelect) {
-      onInsuranceSelect();
-      return;
-    }
-
-    if (option === "SIP" && onSIPSelect) {
-      onSIPSelect();
-      return;
-    }
-
-    toast({
-      title: `You selected to invest in ${option}`,
-      description: "Investment feature coming soon!",
-    });
+    handleGenericToast(
+      `You selected to ${option}`,
+      "Investment feature coming soon!"
+    );
   };
 
   const handleAboutOption = (option: string) => {
-    toast({
-      title: `You selected ${option}`,
-      description: option === "Help" ? "Our support team will assist you soon!" : "Your complaint has been registered.",
-    });
+    handleGenericToast(
+      `You selected ${option}`,
+      option === "Help" ? "Our support team will assist you soon!" : "Your complaint has been registered."
+    );
   };
 
   const handleProfileClick = (option: string) => {
-    if (option === "My Budget" && onBudgetSelect) {
-      onBudgetSelect();
-      return;
-    }
-    
-    toast({
-      title: `You selected ${option}`,
-      description: "This feature is coming soon!",
-    });
+    handleGenericToast(
+      `You selected ${option}`,
+      "This feature is coming soon!"
+    );
   };
 
   return (
@@ -130,116 +76,25 @@ export const NavigationHeader = ({
               </a>
             </div>
             <div className="hidden md:flex items-center space-x-4">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-sm font-medium transition-colors hover:text-primary"
-                  >
-                    Learn
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="end"
-                  className="w-48"
-                >
-                  <DropdownMenuItem onClick={() => handleLearnOption("Stocks")}>
-                    <TrendingUp className="mr-2 h-4 w-4" />
-                    <span>Stocks</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleLearnOption("Banking")}>
-                    <Building className="mr-2 h-4 w-4" />
-                    <span>Banking</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleLearnOption("Mutual Funds")}>
-                    <Briefcase className="mr-2 h-4 w-4" />
-                    <span>Mutual Funds</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleLearnOption("Insurance")}>
-                    <Shield className="mr-2 h-4 w-4" />
-                    <span>Insurance</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-sm font-medium transition-colors hover:text-primary"
-                  >
-                    Invest
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="end"
-                  className="w-48"
-                >
-                  <DropdownMenuItem onClick={() => handleInvestOption("Gold")}>
-                    <Coins className="mr-2 h-4 w-4" />
-                    <span>Gold</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleInvestOption("Mutual Funds")}>
-                    <Briefcase className="mr-2 h-4 w-4" />
-                    <span>Mutual Funds</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleInvestOption("SIP")}>
-                    <PiggyBank className="mr-2 h-4 w-4" />
-                    <span>SIP</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleInvestOption("Stocks")}>
-                    <BarChart className="mr-2 h-4 w-4" />
-                    <span>Stocks</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleInvestOption("Insurance")}>
-                    <Shield className="mr-2 h-4 w-4" />
-                    <span>Insurance</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-sm font-medium transition-colors hover:text-primary"
-                  >
-                    About
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent 
-                  align="end"
-                  className="w-48"
-                >
-                  <DropdownMenuItem onClick={() => handleAboutOption("Help")}>
-                    <HelpCircle className="mr-2 h-4 w-4" />
-                    <span>Help</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleAboutOption("Complaints")}>
-                    <AlertCircle className="mr-2 h-4 w-4" />
-                    <span>Complaints</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-sm font-medium transition-colors hover:text-primary"
-                  >
-                    <User className="mr-2 h-4 w-4" />
-                    My Profile
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => handleProfileClick("Profile Settings")}>
-                    <User className="mr-2 h-4 w-4" />
-                    <span>Profile Settings</span>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => handleProfileClick("My Budget")}>
-                    <PiggyBank className="mr-2 h-4 w-4" />
-                    <span>My Budget</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <LearnMenu
+                onStockGameSelect={onStockGameSelect}
+                onBankingSelect={onBankingSelect}
+                onMutualFundsLearnSelect={onMutualFundsLearnSelect}
+                onInsuranceLearnSelect={onInsuranceLearnSelect}
+                onMenuItemSelect={handleLearnOption}
+              />
+              <InvestMenu
+                onGoldSelect={onGoldSelect}
+                onStockDataSelect={onStockDataSelect}
+                onInsuranceSelect={onInsuranceSelect}
+                onSIPSelect={onSIPSelect}
+                onMenuItemSelect={handleInvestOption}
+              />
+              <AboutMenu onMenuItemSelect={handleAboutOption} />
+              <ProfileMenu
+                onBudgetSelect={onBudgetSelect}
+                onMenuItemSelect={handleProfileClick}
+              />
             </div>
           </div>
         </div>
