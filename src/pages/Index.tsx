@@ -1,3 +1,4 @@
+
 import { NavigationHeader } from "@/components/NavigationHeader";
 import { ChatInterface } from "@/components/ChatInterface";
 import { StockGame } from "@/components/StockGame";
@@ -6,13 +7,16 @@ import { StockInvestmentData } from "@/components/StockInvestmentData";
 import { MutualFundsLearning } from "@/components/MutualFundsLearning";
 import { BankingLearning } from "@/components/BankingLearning";
 import { BudgetAnalysis } from "@/components/BudgetAnalysis";
+import { Insurance } from "@/components/Insurance";
+import { InsuranceLearning } from "@/components/InsuranceLearning";
+import { SIPInvestment } from "@/components/SIPInvestment";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<
-    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds" | "banking" | "budget"
+    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds" | "banking" | "budget" | "insurance" | "insuranceLearn" | "sip"
   >("chat");
 
   const scrollToChat = () => {
@@ -39,6 +43,12 @@ const Index = () => {
         return <BankingLearning />;
       case "budget":
         return <BudgetAnalysis />;
+      case "insurance":
+        return <Insurance />;
+      case "insuranceLearn":
+        return <InsuranceLearning />;
+      case "sip":
+        return <SIPInvestment />;
       default:
         return null;
     }
@@ -53,6 +63,9 @@ const Index = () => {
         onMutualFundsLearnSelect={() => setCurrentView("mutualFunds")}
         onBankingSelect={() => setCurrentView("banking")}
         onBudgetSelect={() => setCurrentView("budget")}
+        onInsuranceSelect={() => setCurrentView("insurance")}
+        onInsuranceLearnSelect={() => setCurrentView("insuranceLearn")}
+        onSIPSelect={() => setCurrentView("sip")}
       />
       
       {/* Hero Section */}

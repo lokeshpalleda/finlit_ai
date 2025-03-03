@@ -1,8 +1,7 @@
 
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { PlayCircle, Building, CreditCard, PiggyBank } from "lucide-react";
+import { Shield, Heart, Umbrella } from "lucide-react";
 
 interface VideoLesson {
   id: string;
@@ -12,36 +11,36 @@ interface VideoLesson {
   icon: React.ReactNode;
 }
 
-export const BankingLearning = () => {
+export const InsuranceLearning = () => {
   const [selectedVideo, setSelectedVideo] = useState<VideoLesson | null>(null);
 
   const lessons: VideoLesson[] = [
     {
       id: "1",
-      title: "Introduction to Banking",
-      description: "Learn the basics of banking and financial institutions",
-      videoId: "YQ_xWvX1n9g", // Khan Academy banking video
-      icon: <Building className="h-8 w-8 text-primary" />
+      title: "Insurance Basics",
+      description: "Learn the fundamentals of insurance and risk management",
+      videoId: "3tK7wjyNZJk", // Insurance basics video
+      icon: <Shield className="h-8 w-8 text-primary" />
     },
     {
       id: "2",
-      title: "Types of Bank Accounts",
-      description: "Understanding different types of bank accounts and their benefits",
-      videoId: "O5YAuOnLc-U", // Video about bank accounts
-      icon: <CreditCard className="h-8 w-8 text-primary" />
+      title: "Health Insurance",
+      description: "Understanding health insurance policies and coverage options",
+      videoId: "DBTmNm8D-84", // Health insurance video
+      icon: <Heart className="h-8 w-8 text-primary" />
     },
     {
       id: "3",
-      title: "Digital Banking",
-      description: "Guide to modern digital banking services and security",
-      videoId: "QH2-TGUlwu4", // Digital banking video (placeholder)
-      icon: <PiggyBank className="h-8 w-8 text-primary" />
+      title: "Life Insurance",
+      description: "Guide to life insurance types and when you need them",
+      videoId: "9Cny-On7dQk", // Life insurance video
+      icon: <Umbrella className="h-8 w-8 text-primary" />
     }
   ];
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6 glass dark:glass-dark rounded-lg border shadow-lg animate-fade-up">
-      <h2 className="text-2xl font-bold mb-6">Banking Education</h2>
+      <h2 className="text-2xl font-bold mb-6">Insurance Education</h2>
 
       <div className="grid gap-6 md:grid-cols-2">
         <div className="space-y-4">

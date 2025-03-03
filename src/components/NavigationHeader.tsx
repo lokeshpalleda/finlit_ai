@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -27,6 +28,9 @@ interface NavigationHeaderProps {
   onMutualFundsLearnSelect?: () => void;
   onInsuranceSelect?: () => void;
   onBudgetSelect?: () => void;
+  onBankingSelect?: () => void;
+  onInsuranceLearnSelect?: () => void;
+  onSIPSelect?: () => void;
 }
 
 export const NavigationHeader = ({ 
@@ -35,7 +39,10 @@ export const NavigationHeader = ({
   onStockDataSelect,
   onMutualFundsLearnSelect,
   onInsuranceSelect,
-  onBudgetSelect
+  onBudgetSelect,
+  onBankingSelect,
+  onInsuranceLearnSelect,
+  onSIPSelect
 }: NavigationHeaderProps) => {
   const { toast } = useToast();
 
@@ -47,6 +54,16 @@ export const NavigationHeader = ({
 
     if (option === "Mutual Funds" && onMutualFundsLearnSelect) {
       onMutualFundsLearnSelect();
+      return;
+    }
+    
+    if (option === "Banking" && onBankingSelect) {
+      onBankingSelect();
+      return;
+    }
+
+    if (option === "Insurance" && onInsuranceLearnSelect) {
+      onInsuranceLearnSelect();
       return;
     }
     
@@ -69,6 +86,11 @@ export const NavigationHeader = ({
 
     if (option === "Insurance" && onInsuranceSelect) {
       onInsuranceSelect();
+      return;
+    }
+
+    if (option === "SIP" && onSIPSelect) {
+      onSIPSelect();
       return;
     }
 
