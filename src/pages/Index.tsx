@@ -10,13 +10,14 @@ import { BudgetAnalysis } from "@/components/BudgetAnalysis";
 import { Insurance } from "@/components/Insurance";
 import { InsuranceLearning } from "@/components/InsuranceLearning";
 import { SIPInvestment } from "@/components/SIPInvestment";
+import { MutualFundsInvestment } from "@/components/MutualFundsInvestment";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 const Index = () => {
   const [currentView, setCurrentView] = useState<
-    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds" | "banking" | "budget" | "insurance" | "insuranceLearn" | "sip"
+    "chat" | "stockGame" | "gold" | "stockData" | "mutualFunds" | "banking" | "budget" | "insurance" | "insuranceLearn" | "sip" | "mutualFundsInvest"
   >("chat");
 
   const scrollToChat = () => {
@@ -49,6 +50,8 @@ const Index = () => {
         return <InsuranceLearning />;
       case "sip":
         return <SIPInvestment />;
+      case "mutualFundsInvest":
+        return <MutualFundsInvestment />;
       default:
         return null;
     }
@@ -66,6 +69,7 @@ const Index = () => {
         onInsuranceSelect={() => setCurrentView("insurance")}
         onInsuranceLearnSelect={() => setCurrentView("insuranceLearn")}
         onSIPSelect={() => setCurrentView("sip")}
+        onMutualFundsSelect={() => setCurrentView("mutualFundsInvest")}
       />
       
       {/* Hero Section */}

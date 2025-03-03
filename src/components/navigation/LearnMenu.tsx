@@ -47,6 +47,14 @@ export const LearnMenu = ({
     onMenuItemSelect(option);
   };
 
+  // Menu items sorted alphabetically
+  const menuItems = [
+    { icon: Building, label: "Banking", onClick: () => handleLearnOption("Banking") },
+    { icon: Shield, label: "Insurance", onClick: () => handleLearnOption("Insurance") },
+    { icon: Briefcase, label: "Mutual Funds", onClick: () => handleLearnOption("Mutual Funds") },
+    { icon: TrendingUp, label: "Stocks", onClick: () => handleLearnOption("Stocks") },
+  ];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -61,26 +69,14 @@ export const LearnMenu = ({
         align="end"
         className="w-48"
       >
-        <NavigationMenuItem 
-          icon={TrendingUp}
-          label="Stocks"
-          onClick={() => handleLearnOption("Stocks")}
-        />
-        <NavigationMenuItem 
-          icon={Building}
-          label="Banking"
-          onClick={() => handleLearnOption("Banking")}
-        />
-        <NavigationMenuItem 
-          icon={Briefcase}
-          label="Mutual Funds"
-          onClick={() => handleLearnOption("Mutual Funds")}
-        />
-        <NavigationMenuItem 
-          icon={Shield}
-          label="Insurance"
-          onClick={() => handleLearnOption("Insurance")}
-        />
+        {menuItems.map((item, index) => (
+          <NavigationMenuItem 
+            key={index}
+            icon={item.icon}
+            label={item.label}
+            onClick={item.onClick}
+          />
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

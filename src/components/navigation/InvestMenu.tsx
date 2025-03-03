@@ -13,6 +13,7 @@ interface InvestMenuProps {
   onStockDataSelect?: () => void;
   onInsuranceSelect?: () => void;
   onSIPSelect?: () => void;
+  onMutualFundsSelect?: () => void;
   onMenuItemSelect: (option: string) => void;
 }
 
@@ -21,6 +22,7 @@ export const InvestMenu = ({
   onStockDataSelect,
   onInsuranceSelect,
   onSIPSelect,
+  onMutualFundsSelect,
   onMenuItemSelect,
 }: InvestMenuProps) => {
   const handleInvestOption = (option: string) => {
@@ -44,8 +46,22 @@ export const InvestMenu = ({
       return;
     }
 
+    if (option === "Mutual Funds" && onMutualFundsSelect) {
+      onMutualFundsSelect();
+      return;
+    }
+
     onMenuItemSelect(`invest in ${option}`);
   };
+
+  // Menu items sorted alphabetically
+  const menuItems = [
+    { icon: Coins, label: "Gold", onClick: () => handleInvestOption("Gold") },
+    { icon: Shield, label: "Insurance", onClick: () => handleInvestOption("Insurance") },
+    { icon: Briefcase, label: "Mutual Funds", onClick: () => handleInvestOption("Mutual Funds") },
+    { icon: PiggyBank, label: "SIP", onClick: () => handleInvestOption("SIP") },
+    { icon: BarChart, label: "Stocks", onClick: () => handleInvestOption("Stocks") },
+  ];
 
   return (
     <DropdownMenu>
@@ -61,31 +77,14 @@ export const InvestMenu = ({
         align="end"
         className="w-48"
       >
-        <NavigationMenuItem 
-          icon={Coins}
-          label="Gold"
-          onClick={() => handleInvestOption("Gold")}
-        />
-        <NavigationMenuItem 
-          icon={Briefcase}
-          label="Mutual Funds"
-          onClick={() => handleInvestOption("Mutual Funds")}
-        />
-        <NavigationMenuItem 
-          icon={PiggyBank}
-          label="SIP"
-          onClick={() => handleInvestOption("SIP")}
-        />
-        <NavigationMenuItem 
-          icon={BarChart}
-          label="Stocks"
-          onClick={() => handleInvestOption("Stocks")}
-        />
-        <NavigationMenuItem 
-          icon={Shield}
-          label="Insurance"
-          onClick={() => handleInvestOption("Insurance")}
-        />
+        {menuItems.map((item, index) => (
+          <NavigationMenuItem 
+            key={index}
+            icon={item.icon}
+            label={item.label}
+            onClick={item.onClick}
+          />
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
   );

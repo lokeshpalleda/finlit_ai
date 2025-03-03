@@ -15,6 +15,7 @@ interface NavigationHeaderProps {
   onBankingSelect?: () => void;
   onInsuranceLearnSelect?: () => void;
   onSIPSelect?: () => void;
+  onMutualFundsSelect?: () => void;
 }
 
 export const NavigationHeader = ({ 
@@ -26,7 +27,8 @@ export const NavigationHeader = ({
   onBudgetSelect,
   onBankingSelect,
   onInsuranceLearnSelect,
-  onSIPSelect
+  onSIPSelect,
+  onMutualFundsSelect
 }: NavigationHeaderProps) => {
   const { toast } = useToast();
 
@@ -88,6 +90,7 @@ export const NavigationHeader = ({
                 onStockDataSelect={onStockDataSelect}
                 onInsuranceSelect={onInsuranceSelect}
                 onSIPSelect={onSIPSelect}
+                onMutualFundsSelect={onMutualFundsSelect}
                 onMenuItemSelect={handleInvestOption}
               />
               <AboutMenu onMenuItemSelect={handleAboutOption} />
