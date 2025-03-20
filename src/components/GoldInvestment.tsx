@@ -8,22 +8,19 @@ interface GoldPrice {
 }
 
 export const GoldInvestment = () => {
-  const [currentPriceUSD, setCurrentPriceUSD] = useState<number | null>(null);
   const [currentPriceINR, setCurrentPriceINR] = useState<number | null>(null);
   const [priceChange, setPriceChange] = useState<number | null>(null);
   const [recommendation, setRecommendation] = useState("Loading...");
 
-  // Approximate exchange rate (1 USD ≈ 83 INR)
   const USD_TO_INR = 86;
 
-  // Sample historical data
   const goldPriceData: GoldPrice[] = [    
     { date: "Oct", price: 7828 },
-    { date: "Nov", price: 7827},
+    { date: "Nov", price: 7827 },
     { date: "Dec", price: 7586 },
     { date: "Jan", price: 8433 },
-    { date: "Feb", price: 8713.3},
-    { date: "Mar", price: 8623.5},
+    { date: "Feb", price: 8713.3 },
+    { date: "Mar", price: 8623.5 },
   ];
 
   useEffect(() => {
@@ -31,7 +28,7 @@ export const GoldInvestment = () => {
       try {
         const response = await fetch("https://www.goldapi.io/api/XAU/USD", {
           headers: {
-            "x-access-token": "goldapi-uur4619m7fgnueu-io", // Replace with your API key
+            "x-access-token": "goldapi-uur4619m7fgnueu-io",
             "Content-Type": "application/json",
           },
         });
@@ -41,19 +38,23 @@ export const GoldInvestment = () => {
         }
 
         const data = await response.json();
-        setCurrentPriceUSD(data.price);
-        setCurrentPriceINR(data.price * USD_TO_INR); // Convert to INR
+        const latestPriceINR = data.price * USD_TO_INR;
+        setCurrentPriceINR(latestPriceINR);
         setPriceChange(data.ch);
+
+        // Determine recommendation based on price trend
+        const lastRecordedPrice = goldPriceData[goldPriceData.length - 1].price;
+        setRecommendation(latestPriceINR >= lastRecordedPrice ? "Buy" : "Don't Buy");
       } catch (error) {
         console.error("Error fetching gold price:", error);
+        setRecommendation("Failed to fetch data");
       }
     };
-
     fetchGoldPrice();
   }, []);
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-6 glass dark:glass-dark rounded-lg border shadow-lg animate-fade-up">
+    <div className="w-full max-w-4xl mx-auto p-6 bg-white rounded-lg border shadow-lg">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Gold Investment Analysis</h2>
         <div className="flex items-center gap-2">
@@ -69,28 +70,28 @@ export const GoldInvestment = () => {
         </div>
       </div>
 
-      <div className="h-[300px] mb-6">
+      <div className="h-[250px] mb-6">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={goldPriceData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
+          <LineChart data={goldPriceData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+            <XAxis dataKey="date" tick={{ fill: "#333" }} />
+            <YAxis tick={{ fill: "#333" }} />
             <Tooltip />
-            <Line type="monotone" dataKey="price" stroke="#FFD700" strokeWidth={2} />
+            <Line type="monotone" dataKey="price" stroke="#FFD700" strokeWidth={2} dot={{ fill: "#FFD700", r: 4 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      <div className="p-4 border rounded-lg bg-card">
-        <h3 className="text-xl font-semibold mb-2">AI-Based Investment Recommendation</h3>
-        <div className={`text-lg ${recommendation === "Buy" ? "text-green-500" : "text-red-500"}`}>
+      <div className="p-4 border rounded-lg bg-gray-100 text-center">
+        <h3 className="text-lg font-semibold">AI-Based Investment Recommendation</h3>
+        <div className={`mt-2 ${recommendation === "Buy" ? "text-green-500" : "text-red-500"}`}>
           {recommendation}
         </div>
       </div>
 
-      <div className="p-4 border rounded-lg bg-card">
-        <h3 className="text-xl font-semibold mb-2">Market Analysis</h3>
-        <ul className="space-y-2 text-muted-foreground">
+      <div className="p-4 border rounded-lg bg-gray-100 mt-4">
+        <h3 className="text-lg font-semibold">Market Analysis</h3>
+        <ul className="mt-2 text-gray-700 space-y-2">
           <li>• Strong demand from central banks</li>
           <li>• Geopolitical tensions supporting prices</li>
           <li>• Technical indicators showing bullish trends</li>
