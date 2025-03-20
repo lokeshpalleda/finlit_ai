@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -26,33 +25,30 @@ export const BudgetAnalysis = () => {
 
   const getSuggestions = () => {
     const savings = Number(monthlySavings);
-    const suggestions = [];
+    const emergencyFund = savings * 0.3;
+    const investments = savings * 0.5;
+    const insurance = savings * 0.2;
 
-    // Emergency Fund
-    suggestions.push({
-      title: "Emergency Fund",
-      amount: Math.min(savings * 0.3, 1000),
-      description: "Keep this in a high-yield savings account for emergencies",
-      icon: <PiggyBank className="h-6 w-6 text-blue-500" />,
-    });
-
-    // Investments
-    suggestions.push({
-      title: "Stock Market Investment",
-      amount: savings * 0.4,
-      description: "Consider index funds or blue-chip stocks for long-term growth",
-      icon: <TrendingUp className="h-6 w-6 text-green-500" />,
-    });
-
-    // Insurance
-    suggestions.push({
-      title: "Insurance Coverage",
-      amount: savings * 0.2,
-      description: "Allocate this for term life and health insurance premiums",
-      icon: <Shield className="h-6 w-6 text-purple-500" />,
-    });
-
-    return suggestions;
+    return [
+      {
+        title: "Emergency Fund",
+        amount: emergencyFund,
+        description: "Keep this in a high-yield savings account for emergencies",
+        icon: <PiggyBank className="h-6 w-6 text-blue-500" />, 
+      },
+      {
+        title: "Stock Market Investment",
+        amount: investments,
+        description: "Consider index funds or blue-chip stocks for long-term growth",
+        icon: <TrendingUp className="h-6 w-6 text-green-500" />, 
+      },
+      {
+        title: "Insurance Coverage",
+        amount: insurance,
+        description: "Allocate this for term life and health insurance premiums",
+        icon: <Shield className="h-6 w-6 text-purple-500" />, 
+      }
+    ];
   };
 
   return (
@@ -61,7 +57,7 @@ export const BudgetAnalysis = () => {
       
       <div className="mb-8">
         <label className="block text-sm font-medium mb-2">
-          Monthly Savings Amount
+          Monthly Savings Amount (₹)
         </label>
         <div className="flex gap-4">
           <Input
@@ -88,7 +84,7 @@ export const BudgetAnalysis = () => {
                   <h4 className="font-semibold">{suggestion.title}</h4>
                 </div>
                 <p className="text-2xl font-bold mb-2">
-                  ${suggestion.amount.toFixed(2)}
+                  ₹{suggestion.amount.toFixed(2)}
                 </p>
                 <p className="text-sm text-muted-foreground">
                   {suggestion.description}

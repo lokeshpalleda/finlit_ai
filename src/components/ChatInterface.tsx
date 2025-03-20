@@ -1,18 +1,15 @@
-
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage } from "./ChatMessage";
-import { Send } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Send, Loader2 } from "lucide-react";
 
 export const ChatInterface = () => {
-  const { toast } = useToast();
   const [messages, setMessages] = useState<Array<{ text: string; isAI: boolean }>>([
-    { text: "Hi! I'm your AI financial assistant powered by Gemini. How can I help you today?", isAI: true },
+    { text: "Hi! I'm your AI financial assistant. How can I help you today?", isAI: true },
   ]);
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -23,63 +20,45 @@ export const ChatInterface = () => {
     scrollToBottom();
   }, [messages]);
 
-  const generateGeminiPrompt = (userMessage: string) => {
-    return {
-      contents: [{
-        parts: [{
-          text: `You are a helpful financial advisor AI assistant. Please provide advice and information about finance, investments, and money management.
-
-User message: ${userMessage}
-
-Please provide a helpful, informative response focused on financial topics.`
-        }]
-      }]
-    };
-  };
-
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
+    if (!input.trim() || loading) return;
 
     const userMessage = input.trim();
     setInput("");
     setMessages((prev) => [...prev, { text: userMessage, isAI: false }]);
-    setIsLoading(true);
+    setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + process.env.GEMINI_API_KEY,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(generateGeminiPrompt(userMessage)),
-        }
-      );
+      const API_KEY = "AIzaSyAtPKC3kpxBQqmy3B3PhiY-FqZ--YWbF0k"; // Replace with your actual API key
+      const API_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: userMessage }] }],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch AI response: ${response.statusText}`);
+      }
 
       const data = await response.json();
 
-      if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
-        setMessages((prev) => [
-          ...prev,
-          { text: data.candidates[0].content.parts[0].text, isAI: true },
-        ]);
-      } else {
-        throw new Error("Invalid response from Gemini API");
-      }
+      let aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to respond to that.";
+
+      //Limit the AI response to a maximum of 6 lines
+      const lines = aiReply.split('\n');
+      aiReply = lines.slice(0, 8).join('\n');
+
+
+      setMessages((prev) => [...prev, { text: aiReply, isAI: true }]);
     } catch (error) {
-      console.error("Error calling Gemini API:", error);
-      toast({
-        title: "Error",
-        description: "Failed to get a response. Please try again.",
-        variant: "destructive",
-      });
-      setMessages((prev) => [
-        ...prev,
-        { text: "I apologize, but I'm having trouble responding right now. Please try again.", isAI: true },
-      ]);
+      console.error("Error fetching AI response:", error);
+      setMessages((prev) => [...prev, { text: "Oops! Something went wrong. Please try again.", isAI: true }]);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -91,15 +70,12 @@ Please provide a helpful, informative response focused on financial topics.`
   };
 
   return (
-    <div className="flex flex-col h-[600px] w-full max-w-2xl glass dark:glass-dark rounded-lg border shadow-lg">
+    <div className="flex flex-col h-[600px] w-full max-w-2xl glass dark:glass-dark rounded-lg border border-gray-300 shadow-lg">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
-          <ChatMessage
-            key={index}
-            message={message.text}
-            isAI={message.isAI}
-          />
+          <ChatMessage key={index} message={message.text} isAI={message.isAI} />
         ))}
+        {loading && <ChatMessage message="Thinking..." isAI={true} />}
         <div ref={messagesEndRef} />
       </div>
       <div className="border-t p-4">
@@ -110,14 +86,10 @@ Please provide a helpful, informative response focused on financial topics.`
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             className="flex-1"
-            disabled={isLoading}
+            disabled={loading}
           />
-          <Button 
-            onClick={handleSend} 
-            size="icon"
-            disabled={isLoading}
-          >
-            <Send className="h-4 w-4" />
+          <Button onClick={handleSend} size="icon" disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
           </Button>
         </div>
       </div>
