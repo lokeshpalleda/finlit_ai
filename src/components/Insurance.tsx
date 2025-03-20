@@ -1,6 +1,4 @@
-
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Heart, Home, Car, Check } from "lucide-react";
 
@@ -81,13 +79,6 @@ export const Insurance = () => {
     },
   ];
 
-  const handleSelect = (plan: InsurancePlan) => {
-    toast({
-      title: "Insurance Selected",
-      description: `You selected ${plan.name}. Our team will contact you soon.`,
-    });
-  };
-
   return (
     <div className="w-full max-w-4xl mx-auto p-6 glass dark:glass-dark rounded-lg border shadow-lg">
       <h2 className="text-2xl font-bold mb-6">Insurance Plans</h2>
@@ -129,13 +120,6 @@ export const Insurance = () => {
               <div className="text-sm font-medium">Recommendation:</div>
               <div className="text-sm text-muted-foreground">{plan.recommendation}</div>
             </div>
-            
-            <Button 
-              className="w-full"
-              onClick={() => handleSelect(plan)}
-            >
-              Select Plan
-            </Button>
           </Card>
         ))}
       </div>
