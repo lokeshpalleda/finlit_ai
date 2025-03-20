@@ -50,21 +50,24 @@ const Index = () => {
         return (
           <div className="relative flex flex-col md:flex-row gap-8 items-start px-8 w-full">
             {/* Left Section - Stock Market Game */}
-            <div className="md:w-[60%] flex-shrink-0">
+            <div className="md:w-[70%] flex-shrink-0">
               <h2 className="text-3xl font-bold mb-4 text-gray-800">
                 Stock Market Game
               </h2>
-              <StockGame />
+              <div className="scale-90 transform origin-top">
+                 <StockGame />
+              </div>
+
             </div>
 
             {/* Right Section - Stock Investment Videos */}
-            <div className="md:w-[60%] flex-shrink-0">
+            <div className="md:w-[70%] flex-shrink-0">
               <h2 className="text-3xl font-bold mb-4 text-gray-800">
                 Stock Investment Videos
               </h2>
 
               {/* Video List */}
-              <div className="space-y-6 overflow-y-auto max-h-[500px] pr-4 bg-white p-4 rounded-lg shadow-md">
+              <div className="space-y-6 overflow-y-auto max-h-[600px] pr-4 bg-white p-4 rounded-lg shadow-md">
                 {videos.length === 0 ? (
                   <p className="text-gray-600">Loading videos...</p>
                 ) : (
@@ -82,7 +85,7 @@ const Index = () => {
                         src={video.url.replace("watch?v=", "embed/")}
                         title={video.title}
                         allowFullScreen
-                        className="rounded-lg shadow-lg"
+                        className="rounded-lg shadow-lg h-[300px]"
                       ></iframe>
                     </div>
                   ))
@@ -153,13 +156,12 @@ const Index = () => {
                 Get personalized financial advice, learn about investing, and make informed decisions.
               </p>
               <Button
-  size="lg"
-  onClick={scrollToChat}
-  className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-300"
->
-  Start Chatting
-</Button>
-
+                size="lg"
+                onClick={scrollToChat}
+                className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition duration-300"
+              >
+                Start Chatting
+              </Button>
             </>
           )}
         </div>
