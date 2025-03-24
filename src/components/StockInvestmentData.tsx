@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/select";
 
 // Your API URL
-const API_URL = "http://localhost:8000"; // Change to your actual API URL
+const API_URL = "https://895a-34-106-17-131.ngrok-free.app";
 
 export const StockInvestmentData = () => {
   const { toast } = useToast();
