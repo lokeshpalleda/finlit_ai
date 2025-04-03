@@ -1,7 +1,7 @@
+
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Shield, Heart, Home, Car, Check } from "lucide-react";
-import { useState } from "react";
 
 interface InsurancePlan {
   id: number;
@@ -14,20 +14,70 @@ interface InsurancePlan {
   recommendation: string;
 }
 
-export const GoldInvestment = () => {
-  const [currentPriceINR, setCurrentPriceINR] = useState<number | null>(null);
-  const [priceChange, setPriceChange] = useState<number | null>(null);
-  const [recommendation, setRecommendation] = useState("Loading...");
+export const Insurance = () => {
+  const { toast } = useToast();
 
-  const USD_TO_INR = 86;
-
-  const goldPriceData: GoldPrice[] = [    
-    { date: "Oct", price: 7828 },
-    { date: "Nov", price: 7827 },
-    { date: "Dec", price: 7586 },
-    { date: "Jan", price: 8433 },
-    { date: "Feb", price: 8713.3 },
-    { date: "Mar", price: 8623.5 },
+  const insurancePlans: InsurancePlan[] = [
+    {
+      id: 1,
+      name: "Comprehensive Health Insurance",
+      description: "Complete health coverage for you and your family",
+      benefits: [
+        "Covers hospitalization expenses",
+        "Includes pre and post hospitalization costs",
+        "Cashless treatment at network hospitals",
+        "Annual health checkup",
+      ],
+      premium: 1200,
+      coverage: "₹5,00,000",
+      icon: <Heart className="h-6 w-6 text-red-500" />,
+      recommendation: "Highly recommended for families",
+    },
+    {
+      id: 2,
+      name: "Term Life Insurance",
+      description: "Secure your family's future",
+      benefits: [
+        "High coverage at low premium",
+        "Tax benefits under Section 80C",
+        "Rider options available",
+        "Critical illness coverage",
+      ],
+      premium: 800,
+      coverage: "₹1,00,00,000",
+      icon: <Shield className="h-6 w-6 text-blue-500" />,
+      recommendation: "Essential for primary earning members",
+    },
+    {
+      id: 3,
+      name: "Home Insurance",
+      description: "Protect your home and belongings",
+      benefits: [
+        "Covers natural disasters",
+        "Content insurance included",
+        "Theft protection",
+        "Third-party liability",
+      ],
+      premium: 600,
+      coverage: "₹50,00,000",
+      icon: <Home className="h-6 w-6 text-green-500" />,
+      recommendation: "Recommended for homeowners",
+    },
+    {
+      id: 4,
+      name: "Vehicle Insurance",
+      description: "Comprehensive coverage for your vehicle",
+      benefits: [
+        "Third-party liability",
+        "Own damage coverage",
+        "24/7 roadside assistance",
+        "No claim bonus",
+      ],
+      premium: 400,
+      coverage: "₹15,00,000",
+      icon: <Car className="h-6 w-6 text-purple-500" />,
+      recommendation: "Mandatory for vehicle owners",
+    },
   ];
 
   return (
